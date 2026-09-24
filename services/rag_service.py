@@ -2,7 +2,6 @@ from langchain_community.vectorstores import Chroma
 import json
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
-#from config import GOOGLE_API_KEY
 from config import embeddings
 from services.openai_service import get_response
 
