@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, session
 from services.rag_service import get_rag_response
+import os
 
 app = Flask(__name__)
 
-app.secret_key = "college-assistant-secret-key"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 
 @app.route('/')
