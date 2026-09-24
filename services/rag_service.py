@@ -167,6 +167,7 @@ def get_rag_response(query,conversation_history):
         query,
         conversation_history
     )
+    print("rewritten query")
 
     print("\n==============================")
     print("Original Question:")
@@ -179,6 +180,8 @@ def get_rag_response(query,conversation_history):
     # --------------------------------------------------
     # STEP 2: Hybrid Retrieval
     # --------------------------------------------------
+
+    print("before similarity search")
 
     # Vector search
     vector_results = db.similarity_search(standalone_query,k=5)
