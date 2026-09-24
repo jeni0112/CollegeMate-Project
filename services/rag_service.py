@@ -1,3 +1,5 @@
+from tracemalloc import start
+import time
 from langchain_community.vectorstores import Chroma
 import json
 from langchain_community.retrievers import BM25Retriever
@@ -158,7 +160,7 @@ def get_rag_response(query,conversation_history):
     5. Generate answer
     6. Return answer + sources
     """
-
+    print("STEP 1: Query received", flush=True)
     # --------------------------------------------------
     # STEP 1: Rewrite query
     # --------------------------------------------------
@@ -175,16 +177,33 @@ def get_rag_response(query,conversation_history):
 
     print("\nStandalone Question:")
     print(standalone_query)
-    print("==============================")    
+    print("==============================")   
+
+    start = time.time()
+
+    print("=== EMBEDDING START ===", flush=True)
+
+    test_embedding = embeddings.embed_query(query)
+
+    print("Embedding generated", flush=True)
+    print("Embedding time:", time.time() - start, "seconds", flush=True) 
 
     # --------------------------------------------------
     # STEP 2: Hybrid Retrieval
     # --------------------------------------------------
+    start = time.time()
+
+    print("=== SIMILARITY SEARCH START ===", flush=True)
+
 
     print("before similarity search")
 
     # Vector search
     vector_results = db.similarity_search(standalone_query,k=5)
+
+    print("Retrieved documents:", len(docs), flush=True)
+    print("=== SIMILARITY SEARCH END ===", flush=True)
+    print("Similarity search time:", time.time() - start, "seconds", flush=True)
 
     # BM25 keyword search
     keyword_results = bm25_retriever.invoke(standalone_query)
