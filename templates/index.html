@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Collegemate AI</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Header -->
+    <header class="chat-header">
+
+        <div class="college-info">
+
+            <div class="college-logo">
+                🎓
+            </div>
+
+            <div>
+                <h1>Collegemate AI</h1>
+                <p>Student Support • Available 24/7</p>
+            </div>
+
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Online
+        </div>
+
+    </header>
+
+
+    <!-- Chat Area -->
+    <main class="chat-area">
+
+        <!-- Welcome message -->
+        <div class="message assistant-message">
+
+            <div class="avatar">
+                🎓
+            </div>
+
+            <div class="message-content">
+
+                <div class="message-name">
+                    College Assistant
+                </div>
+
+                <div class="bubble">
+                    <h2>👋 Hello!</h2>
+
+                    <p>
+                        I'm your College Assistant. I can help you
+                        with admissions, courses, fees, hostel
+                        information and campus facilities.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Suggested questions -->
+        <div class="suggestions">
+
+            <p>What would you like to know?</p>
+
+            <div class="suggestion-grid">
+
+                <button type="button"
+                        onclick="askQuestion('Tell me about the admission process')">
+                    🎓 Admissions
+                </button>
+
+                <button type="button"
+                        onclick="askQuestion('What courses are available?')">
+                    📚 Courses
+                </button>
+
+                <button type="button"
+                        onclick="askQuestion('Tell me about the fee structure')">
+                    💳 Fee Details
+                </button>
+
+                <button type="button"
+                        onclick="askQuestion('Tell me about hostel facilities')">
+                    🏠 Hostel
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Input -->
+        <form action="/chat" method="POST" class="chat-form">
+
+            <textarea
+                id="prompt"
+                name="prompt"
+                placeholder="Ask about admissions, courses, fees..."
+                rows="1"
+                required></textarea>
+
+            <button type="submit" class="send-button">
+                ➤
+            </button>
+
+        </form>
+
+        <p class="disclaimer">
+            College Assistant may occasionally provide inaccurate information.
+            Please verify important details with the college administration.
+        </p>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function askQuestion(question) {
+
+        document.getElementById("prompt").value = question;
+
+        document.getElementById("prompt").focus();
+
+    }
+
+    // Automatically expand textarea
+    const textarea = document.getElementById("prompt");
+
+    textarea.addEventListener("input", function () {
+
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Collegemate AI</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Header -->
+    <header class="chat-header">
+
+        <div class="college-info">
+
+            <div class="college-logo">
+                🎓
+            </div>
+
+            <div>
+
+                <h1>Collegemate AI</h1>
+
+                <p>
+                    Student Support • Available 24/7
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            Online
+
+        </div>
+
+    </header>
+
+
+    <!-- Conversation -->
+    <main class="chat-area">
+
+        {% for message in messages %}
+
+            {% if message.role == 'user' %}
+
+                <!-- User question -->
+                <div class="message user-message">
+
+                    <div class="message-content">
+
+                        <div class="message-name">
+                            You
+                        </div>
+
+                        <div class="bubble">
+                            {{ message.content }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% else %}
+        
+
+                <!-- Assistant answer -->
+<div class="message assistant-message">
+
+    <div class="avatar">
+        🎓
+    </div>
+
+    <div class="message-content">
+
+        <div class="message-name">
+            College Assistant
+        </div>
+
+        <div class="bubble answer-text">
+            {{ message.content | replace('\n', '<br>') | safe }}
+
+            {% if message.sources %}
+            <div class="answer-source">
+
+                <strong>Source :</strong>
+
+                {% for source in message.sources %}
+                <div class="source-item">
+                    {{ source.source }} — Page {{ source.page }}
+                </div>
+                {% endfor %}
+
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+        <!-- Ask another question -->
+        <form action="/chat" method="POST" class="chat-form">
+
+            <textarea
+                name="prompt"
+                placeholder="Ask another question..."
+                rows="1"
+                required></textarea>
+
+            <button type="submit" class="send-button">
+                ➤
+            </button>
+
+        </form>
+
+
+        
+
+    </main>
+
+</div>
+
+<script>
+    const textarea = document.querySelector('textarea');
+    const form = document.querySelector('.chat-form');
+
+    textarea.addEventListener('keydown', function(event) {
+
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            form.submit();
+        }
+
+    });
+
+    window.onload = function() {
+        const chatArea = document.querySelector('.chat-area');
+
+        if (chatArea) {
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+    };
+</script>
+
+</body>
+
+</html>
