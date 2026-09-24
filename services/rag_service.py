@@ -1,6 +1,5 @@
-from tracemalloc import start
 import time
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 import json
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
