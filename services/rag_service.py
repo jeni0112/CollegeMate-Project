@@ -191,19 +191,33 @@ def get_rag_response(query,conversation_history):
     # --------------------------------------------------
     # STEP 2: Hybrid Retrieval
     # --------------------------------------------------
-    start = time.time()
+    # --------------------------------------------------
+    # STEP 2: Vector Search Diagnostic
+    # --------------------------------------------------
 
-    print("=== SIMILARITY SEARCH START ===", flush=True)
+    print("\n=== VECTOR SEARCH DIAGNOSTIC ===", flush=True)
 
+    print("DB TYPE:", type(db), flush=True)
 
-    print("before similarity search")
+    try:
+        print("Starting similarity search...", flush=True)
 
-    # Vector search
-    vector_results = db.similarity_search(standalone_query,k=5)
+        search_start = time.time()
 
-    print("Retrieved documents:", len(docs), flush=True)
-    print("=== SIMILARITY SEARCH END ===", flush=True)
-    print("Similarity search time:", time.time() - start, "seconds", flush=True)
+        vector_results = db.similarity_search(
+            standalone_query,
+            k=1
+        )
+
+        search_time = time.time() - search_start
+
+        print("SIMILARITY SEARCH COMPLETED", flush=True)
+        print("Search time:", search_time, "seconds", flush=True)
+        print("Documents retrieved:", len(vector_results), flush=True)
+
+    except Exception as e:
+        print("SIMILARITY SEARCH ERROR:", repr(e), flush=True)
+        raise
 
     # BM25 keyword search
     keyword_results = bm25_retriever.invoke(standalone_query)
